@@ -29,24 +29,20 @@ const auth = (...requiredRole: TUserRole[]) => {
 
             const { role, _id } = decoded;
 
-
-
             // check if the user exists
             const isUserExist = await UserModel.findById(_id).select("-password");
 
             if (!isUserExist) {
                 throw new AppError(httpStatus.NOT_FOUND, "User not found ")
             }
-
+          
             if (requiredRole && !requiredRole.includes(role)) {
                 throw new AppError(httpStatus.BAD_REQUEST, 'You are not authorized!');
             }
 
-    
-
             // setting user in request 
             req.user = decoded as JwtPayload;
-
+           
             next();
         } catch (error) {
 
