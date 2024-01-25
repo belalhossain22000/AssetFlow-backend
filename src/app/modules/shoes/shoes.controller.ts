@@ -3,7 +3,20 @@ import sendResponse from "../../utils/sendResponse";
 import { ShoesService } from "./shoes.service";
 
 
-const createShoes=catchAsync(async (req, res) => {
+//create shoes 
+const getAllShoes = catchAsync(async (req, res) => {
+    const result = await ShoesService.getAllShoesFromDb()
+    
+    sendResponse(res, {
+        success: true,
+        statusCode: 201,
+        message: 'Shoes retrieve successfully',
+        data: result,
+    });
+});
+
+//create shoes 
+const createShoes = catchAsync(async (req, res) => {
     const result = await ShoesService.createUserIntoDb(
         req.body,
     );
@@ -16,6 +29,38 @@ const createShoes=catchAsync(async (req, res) => {
     });
 });
 
-export const ShoesController={
-    createShoes
+
+//delete shoes
+const deleteShoes = catchAsync(async (req, res) => {
+    const id = req.params.id
+    
+    const result = await ShoesService.deleteShoesIntoDb(id);
+
+    sendResponse(res, {
+        success: true,
+        statusCode: 200,
+        message: 'Shoes deleted successfully',
+        data: result,
+    });
+});
+
+
+//update shoes
+const updateShoes = catchAsync(async (req, res) => {
+    const id = req.params.id
+
+    const result = await ShoesService.updateShoesIntoDb(id,req.body);
+
+    sendResponse(res, {
+        success: true,
+        statusCode: 200,
+        message: 'Shoes updated successfully',
+        data: result,
+    });
+});
+export const ShoesController = {
+    getAllShoes,
+    createShoes,
+    deleteShoes,
+    updateShoes
 }
