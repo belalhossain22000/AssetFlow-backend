@@ -10,6 +10,10 @@ const router = express.Router()
 router.post("/",auth("user"),validateData(saleValidationSchema),
     SalseController.createSale
 )
+// shoes get route
+router.get("/history",auth("user"),
+    SalseController.getSalesHistory
+)
 
 
 export const SaleRouter = router

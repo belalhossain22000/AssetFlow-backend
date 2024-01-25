@@ -4,5 +4,5 @@ export type SaleItem = {
     productId: ObjectId;
     quantity: number;
     buyerName: string;
-    saleDate: Date; 
+    saleDate: string; 
   };

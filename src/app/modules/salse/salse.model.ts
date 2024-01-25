@@ -5,23 +5,24 @@ import { SaleItem } from './salse.interface';
 const saleSchema = new Schema<SaleItem>({
   productId: {
     type: Schema.Types.ObjectId,
-    ref: 'Shoes', 
+    ref: 'Shoes',
     required: true,
   },
   quantity: {
     type: Number,
     required: true,
-    min: 1, 
+    min: 1,
   },
   buyerName: {
     type: String,
     required: true,
   },
   saleDate: {
-    type: Date,
-    default: Date.now(), 
+    type: String,
     required: true,
   },
+}, {
+  timestamps: true
 });
 
 

@@ -3,7 +3,7 @@ import AppError from "../../utils/AppError"
 import { ShoesModel } from "../shoes/shoes.model"
 import { SaleModel } from "./salse.model"
 import { SaleItem } from "./salse.interface"
-
+import { startOfDay, addDays, startOfWeek, startOfMonth, startOfYear } from 'date-fns';
 
 const createSaleIntoDb = async (payload: SaleItem) => {
 
@@ -19,7 +19,10 @@ const createSaleIntoDb = async (payload: SaleItem) => {
 
      // checking quantity 0 then will be remove
      if (isShoesExist && isShoesExist.quantity === 0) {
-        await ShoesModel.findByIdAndDelete(id)
+       const isExist= await ShoesModel.findByIdAndDelete(id)
+       if(!isExist){
+        throw new AppError(httpStatus.NOT_FOUND, "That Shoe you find quantity is not available")
+       }
     }
 
 
@@ -27,6 +30,58 @@ const createSaleIntoDb = async (payload: SaleItem) => {
     return result
 }
 
+const findSalesByDateRange = async (startDate: Date, endDate: Date) => {
+
+      const sales = await SaleModel.find({
+        createdAt: { $gte: startDate, $lt: endDate },
+      });
+  
+      return sales;
+
+  };
+ 
+  const findTodaySales = async () => {
+    const todayStart = startOfDay(new Date());
+    const todayEnd = addDays(todayStart, 1);
+  
+    const todaySales = await findSalesByDateRange(todayStart, todayEnd);
+  
+    return todaySales;
+  };
+ 
+  const findLastWeekSales = async () => {
+    const lastWeekStart = startOfWeek(new Date());
+    const lastWeekEnd = addDays(lastWeekStart, 7);
+  
+    const lastWeekSales = await findSalesByDateRange(lastWeekStart, lastWeekEnd);
+  
+    return lastWeekSales;
+  };
+  
+  const findLastMonthSales = async () => {
+    const lastMonthStart = startOfMonth(new Date());
+    const lastMonthEnd = addDays(lastMonthStart, 30); // Assuming 30 days in a month
+  
+    const lastMonthSales = await findSalesByDateRange(lastMonthStart, lastMonthEnd);
+  
+    return lastMonthSales;
+  };
+  
+  const findLastYearSales = async () => {
+    const lastYearStart = startOfYear(new Date());
+    const lastYearEnd = addDays(lastYearStart, 365); // Assuming 365 days in a year
+  
+    const lastYearSales = await findSalesByDateRange(lastYearStart, lastYearEnd);
+  
+    return lastYearSales;
+  };
+  
+ 
+
 export const SalesService = {
-    createSaleIntoDb
+    createSaleIntoDb,
+    findTodaySales,
+    findLastWeekSales,
+    findLastMonthSales,
+    findLastYearSales,
 }
