@@ -13,3 +13,4 @@ export type TShoes={
     material?: string; 
     weight?: string; 
 }
+
