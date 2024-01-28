@@ -3,9 +3,21 @@ import sendResponse from "../../utils/sendResponse";
 import { ShoesService } from "./shoes.service";
 
 
-//create shoes 
+//get all shoes 
 const getAllShoes = catchAsync(async (req, res) => {
     const result = await ShoesService.getAllShoesFromDb()
+    
+    sendResponse(res, {
+        success: true,
+        statusCode: 201,
+        message: 'Shoes retrieve successfully',
+        data: result,
+    });
+});
+//get sigle shoes 
+const getSingleShoes = catchAsync(async (req, res) => {
+    const id = req.params.id
+    const result = await ShoesService.getSingleShoesFromDb(id)
     
     sendResponse(res, {
         success: true,
@@ -62,5 +74,6 @@ export const ShoesController = {
     getAllShoes,
     createShoes,
     deleteShoes,
-    updateShoes
+    updateShoes,
+    getSingleShoes
 }

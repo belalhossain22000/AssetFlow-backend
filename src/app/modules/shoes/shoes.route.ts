@@ -10,6 +10,9 @@ const router = express.Router()
 router.get("/",auth("user"),
     ShoesController.getAllShoes
 )
+router.get("/:id",auth("user"),
+    ShoesController.getSingleShoes
+)
 // shoes add route
 router.post("/add-shoes",auth("user"),
     validateData(shoeValidationSchema),

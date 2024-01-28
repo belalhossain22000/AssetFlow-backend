@@ -5,7 +5,12 @@ import { z } from "zod";
 const userValidationSchema = z.object({
     username: z.string().nonempty({ message: 'Username is required' }),
     email: z.string().email({ message: 'Invalid email format' }),
-    password: z
+    password: z.string()
+
+});
+/**
+ * 
+ * z
         .string({
             invalid_type_error: 'Password must be a string',
         })
@@ -15,9 +20,9 @@ const userValidationSchema = z.object({
             message:
                 'Password must contain at least one uppercase letter, one lowercase letter, one digit, one special character, and be at least 8 characters long',
         }),
-
-});
-
+ * 
+ * 
+ */
 
 //   login user validation schema
 

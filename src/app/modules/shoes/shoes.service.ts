@@ -9,6 +9,12 @@ const getAllShoesFromDb = async () => {
     const result = await ShoesModel.find({})
     return result
 }
+// get single shoes
+const getSingleShoesFromDb = async (id:string) => {
+    
+    const result = await ShoesModel.findById(id)
+    return result
+}
 
 
 //create shoes
@@ -66,5 +72,6 @@ export const ShoesService = {
     getAllShoesFromDb,
     createUserIntoDb,
     deleteShoesIntoDb,
-    updateShoesIntoDb
+    updateShoesIntoDb,
+    getSingleShoesFromDb
 }
