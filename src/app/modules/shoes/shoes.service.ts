@@ -39,7 +39,7 @@ const deleteShoesIntoDb = async (id: string) => {
 //update shoes
 const updateShoesIntoDb = async (id: string, payload: Partial<TShoes>) => {
 
-    const { size, ...remainingShoesData } = payload
+   
 
     // check is shoes exist
     const isExistShoes = await ShoesModel.findById(id)
@@ -50,20 +50,10 @@ const updateShoesIntoDb = async (id: string, payload: Partial<TShoes>) => {
     // Updating basic course info 
     const updateShoeBasicInfo = await ShoesModel.findByIdAndUpdate(
         id,
-        remainingShoesData,
+        payload,
         { new: true, runValidators: true }
     );
-
-    // Update size using $addToSet if size is provided
-    if (size && size.length > 0) {
-        const updatedShoeWithSize = await ShoesModel.findByIdAndUpdate(
-            id,
-            { $addToSet: { size: { $each: size } } },
-            { new: true, runValidators: true }
-        );
-
-        return updatedShoeWithSize;
-    }
+  
 
 
     return updateShoeBasicInfo
