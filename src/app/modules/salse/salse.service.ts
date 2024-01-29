@@ -17,6 +17,9 @@ const createSaleIntoDb = async (payload: SaleItem) => {
         throw new AppError(httpStatus.NOT_FOUND, "Shoes not found with the id")
     }
 
+    
+
+
      // checking quantity 0 then will be remove
      if (isShoesExist && isShoesExist.quantity === 0) {
        const isExist= await ShoesModel.findByIdAndDelete(id)
