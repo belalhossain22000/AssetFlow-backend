@@ -70,10 +70,24 @@ const updateShoes = catchAsync(async (req, res) => {
         data: result,
     });
 });
+
+//bulk delete shoes
+const bulkDelete = catchAsync(async (req, res) => {
+
+    const result = await ShoesService.bulkDeleteFromDb(req.body);
+
+    sendResponse(res, {
+        success: true,
+        statusCode: 200,
+        message: 'Shoes updated successfully',
+        data: result,
+    });
+});
 export const ShoesController = {
     getAllShoes,
     createShoes,
     deleteShoes,
     updateShoes,
-    getSingleShoes
+    getSingleShoes,
+    bulkDelete
 }

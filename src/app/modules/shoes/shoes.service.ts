@@ -10,8 +10,8 @@ const getAllShoesFromDb = async () => {
     return result
 }
 // get single shoes
-const getSingleShoesFromDb = async (id:string) => {
-    
+const getSingleShoesFromDb = async (id: string) => {
+
     const result = await ShoesModel.findById(id)
     return result
 }
@@ -39,7 +39,7 @@ const deleteShoesIntoDb = async (id: string) => {
 //update shoes
 const updateShoesIntoDb = async (id: string, payload: Partial<TShoes>) => {
 
-   
+
 
     // check is shoes exist
     const isExistShoes = await ShoesModel.findById(id)
@@ -53,15 +53,37 @@ const updateShoesIntoDb = async (id: string, payload: Partial<TShoes>) => {
         payload,
         { new: true, runValidators: true }
     );
-  
+
 
 
     return updateShoeBasicInfo
 }
+
+// bulk delete
+const bulkDeleteFromDb = async (ids: string[]) => {
+
+
+    if (!ids || !Array.isArray(ids) || ids.length === 0) {
+        throw new AppError(httpStatus.BAD_REQUEST, 'Please provide valid IDs to delete');
+    }
+
+    // Check if all provided IDs are valid
+    const shoesExist = await ShoesModel.find({ _id: { $in: ids } });
+    if (shoesExist.length !== ids.length) {
+        throw new AppError(httpStatus.NOT_FOUND, 'One or more shoes not found with the provided IDs');
+    }
+
+    // Delete shoes with the provided IDs
+    const result = await ShoesModel.deleteMany({ _id: { $in: ids } });
+    return result
+
+}
+
 export const ShoesService = {
     getAllShoesFromDb,
     createUserIntoDb,
     deleteShoesIntoDb,
     updateShoesIntoDb,
-    getSingleShoesFromDb
+    getSingleShoesFromDb,
+    bulkDeleteFromDb
 }

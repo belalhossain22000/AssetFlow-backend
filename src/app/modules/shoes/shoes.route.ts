@@ -27,5 +27,9 @@ router.delete("/delete/:id",auth("user"),
 router.put("/update/:id",auth("user"),validateData(updateShoeValidationSchema),
     ShoesController.updateShoes
 )
+// update shoes route
+router.put("/bulk-delete",auth("user"),
+    ShoesController.bulkDelete
+)
 
 export const ShoesRouter = router
