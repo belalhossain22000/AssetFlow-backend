@@ -19,11 +19,12 @@ const createSaleIntoDb = async (payload: SaleItem) => {
 
   // checking quantity 0 then will be remove
   if (isShoesExist && isShoesExist.quantity === 0) {
-    const isExist = await ShoesModel.findByIdAndDelete(id)
-    if (!isExist) {
-      throw new AppError(httpStatus.NOT_FOUND, "That Shoe you find quantity is not available")
-    }
+    throw new AppError(httpStatus.NOT_FOUND, "That Shoe you find quantity is not available")
   }
+
+  // Update shoe quantity
+  isShoesExist.quantity -= payload.quantity;
+  await ShoesModel.findByIdAndUpdate(id, { quantity: isShoesExist.quantity });
 
   const result = await SaleModel.create(payload)
   return result
@@ -80,13 +81,13 @@ const findLastYearSales = async () => {
 const getSalseHistoryFromDb = async () => {
 
   const salseHistory = {
-    todaySale:await findTodaySales(),
-    lastWeekSale:await findLastWeekSales(),
-    lastMonthSale:await findLastMonthSales(),
-    lastYearSale:await findLastYearSales()
+    todaySale: await findTodaySales(),
+    lastWeekSale: await findLastWeekSales(),
+    lastMonthSale: await findLastMonthSales(),
+    lastYearSale: await findLastYearSales()
   }
 
- return salseHistory
+  return salseHistory
 }
 
 export const SalesService = {
