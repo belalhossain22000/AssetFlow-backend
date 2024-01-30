@@ -16,7 +16,7 @@ const createSale = catchAsync(async (req, res) => {
 //create sale 
 const getSalesHistory = catchAsync(async (req, res) => {
 
-    const result = await SalesService.findLastWeekSales()
+    const result = await SalesService.getSalseHistoryFromDb()
     
     sendResponse(res, {
         success: true,
