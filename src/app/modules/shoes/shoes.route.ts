@@ -28,7 +28,7 @@ router.put("/update/:id",auth("user"),validateData(updateShoeValidationSchema),
     ShoesController.updateShoes
 )
 // update shoes route
-router.put("/bulk-delete",auth("user"),
+router.delete("/bulk-delete",auth("user"),
     ShoesController.bulkDelete
 )
 
