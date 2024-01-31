@@ -62,7 +62,6 @@ const updateShoesIntoDb = async (id: string, payload: Partial<TShoes>) => {
 // bulk delete
 const bulkDeleteFromDb = async (ids: string[]) => {
 
-
     if (!ids || !Array.isArray(ids) || ids.length === 0) {
         throw new AppError(httpStatus.BAD_REQUEST, 'Please provide valid IDs to delete');
     }
