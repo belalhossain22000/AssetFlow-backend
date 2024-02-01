@@ -6,7 +6,11 @@ import { ShoesModel } from "./shoes.model"
 
 // get all shoes
 const getAllShoesFromDb = async () => {
-    const result = await ShoesModel.find({})
+
+     // Delete  quantity 0
+     await ShoesModel.deleteMany({ quantity: 0 });
+
+    const result = await ShoesModel.find({ quantity: { $gt: 0 } })
     return result
 }
 // get single shoes

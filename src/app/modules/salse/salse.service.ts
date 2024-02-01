@@ -11,21 +11,22 @@ const createSaleIntoDb = async (payload: SaleItem) => {
   const isShoesExist = await ShoesModel.findById(id)
 
 
+
+  // checking quantity 0 then will be remove
+  if (isShoesExist && isShoesExist.quantity === 0) {
+    await ShoesModel.findByIdAndDelete(id)
+    throw new AppError(httpStatus.NOT_FOUND, "Shoes not found with the id")
+  }
+
   //check is exist ot not
   if (!isShoesExist) {
     throw new AppError(httpStatus.NOT_FOUND, "Shoes not found with the id")
   }
-
-  // checking quantity 0 then will be remove
-  if (isShoesExist && isShoesExist.quantity === 0) {
-    throw new AppError(httpStatus.NOT_FOUND, "That Shoe you find quantity is not available")
-  }
-
   // Update shoe quantity
   isShoesExist.quantity -= payload.quantity;
   payload.productName = isShoesExist.name;
   payload.price = isShoesExist.price;
-  
+
   await ShoesModel.findByIdAndUpdate(id, { quantity: isShoesExist.quantity });
 
   const result = await SaleModel.create(payload)
@@ -36,7 +37,7 @@ const findSalesByDateRange = async (startDate: Date, endDate: Date) => {
 
   const sales = await SaleModel.find({
     createdAt: { $gte: startDate, $lt: endDate },
-  }).populate('productId');
+  });
 
   return sales;
 

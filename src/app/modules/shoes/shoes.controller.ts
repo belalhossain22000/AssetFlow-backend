@@ -5,7 +5,7 @@ import { ShoesService } from "./shoes.service";
 
 //get all shoes 
 const getAllShoes = catchAsync(async (req, res) => {
-    const result = await ShoesService.getAllShoesFromDb(req.query)
+    const result = await ShoesService.getAllShoesFromDb()
     
     sendResponse(res, {
         success: true,
