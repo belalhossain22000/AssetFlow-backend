@@ -6,7 +6,6 @@ import { SaleItem } from "./salse.interface"
 import { startOfDay, addDays, startOfWeek, startOfMonth, startOfYear } from 'date-fns';
 
 const createSaleIntoDb = async (payload: SaleItem) => {
-
   const id = payload.productId
   // check is product exist
   const isShoesExist = await ShoesModel.findById(id)
@@ -24,6 +23,9 @@ const createSaleIntoDb = async (payload: SaleItem) => {
 
   // Update shoe quantity
   isShoesExist.quantity -= payload.quantity;
+  payload.productName = isShoesExist.name;
+  payload.price = isShoesExist.price;
+  
   await ShoesModel.findByIdAndUpdate(id, { quantity: isShoesExist.quantity });
 
   const result = await SaleModel.create(payload)

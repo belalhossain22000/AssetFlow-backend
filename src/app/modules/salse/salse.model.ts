@@ -8,6 +8,14 @@ const saleSchema = new Schema<SaleItem>({
     ref: 'Shoes',
     required: true,
   },
+  price: {
+    type: Number,
+    require: true
+  },
+  productName: {
+    type: String,
+    require: true
+  },
   quantity: {
     type: Number,
     required: true,
